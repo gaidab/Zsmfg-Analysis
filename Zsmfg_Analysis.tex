@@ -1,0 +1,1428 @@
+% https://en.wikibooks.org/wiki/LaTeX/Mathematics
+
+% Fortschritt
+%   Vorlesung 1 ✔✔
+%   Vorlesung 2 ✔✔
+%   Vorlesung 3 ✔✔
+%   Vorlesung 4 ✔✔
+%   Vorlesung 5 ✔✔
+%   Vorlesung 6 ✔✔
+%   Vorlesung 7 ✔✔
+%   Vorlesung 8 ✔✔
+%   Vorlesung 9 ✔✔
+%   Vorlesung 10 ✔
+%   Vorlesung 11 ✔
+%   Vorlesung 12 ✔
+%   Vorlesung 13 ✔
+%   Vorlesung 14 ✔ 
+%   Vorlesung 15 ✔
+%   Vorlesung 16 ✔
+%   Vorlesung 17 ✔
+%   Vorlesung 18 ✔
+%   Vorlesung 19 ✔
+%   Vorlesung 20 ✔
+%   Vorlesung 21 ✔
+%   Vorlesung 22 ✔
+%   Vorlesung 23 ✔
+%   Vorlesung 24 ✔
+%   Vorlesung 25 ✔
+%   Vorlesung 26 ✔
+%   Vorlesung 27 ✔
+%   Vorlesung 28 ✘
+%   Vorlesung 29 ✘
+
+
+
+% TODO
+% - wichtige Folgen mit Namen versehen
+% - Exponenten nach unten bekommen mittels ln
+%     (n! / n^n)^(1/n) => 1/n * ln(n! / n^n)
+
+\documentclass[a4paper,9pt]{extarticle}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[german]{babel}
+
+\usepackage{amsmath,amssymb,textcomp}
+\everymath{\displaystyle}
+
+\renewcommand\familydefault{\sfdefault}
+
+\usepackage{multicol}
+\setlength{\columnseprule}{0pt}
+\setlength{\columnsep}{20.0pt}
+
+
+\usepackage{geometry}
+\geometry{
+a4paper,
+total={210mm,297mm},
+left=10mm,right=10mm,top=15mm,bottom=15mm}
+
+% moar space = increased readability
+\linespread{1.2}
+
+% disable automatic indent
+% http://tex.stackexchange.com/a/59248
+\newlength\tindent
+\setlength{\tindent}{\parindent}
+%\setlength{\parindent}{0pt}
+\renewcommand{\indent}{\hspace*{\tindent}}
+
+% reduce space between enumeration items
+% http://stackoverflow.com/a/4974583
+% package documentation: ftp://ftp.rrzn.uni-hannover.de/pub/mirror/tex-archive/macros/latex/contrib/enumitem/enumitem.pdf (3.8 Compact lists)
+\usepackage{enumitem}
+\setlist{nosep,leftmargin=14pt}
+
+%% custom title
+%\makeatletter
+%\renewcommand*{\maketitle}{
+%\noindent
+%\begin{minipage}{0.65\textwidth}
+%\begin{tikzpicture}
+%\node[rectangle,inner sep=10pt,fill=gray!50!black,text width= 0.95\textwidth] {\color{white}\Huge \@title};
+%\end{tikzpicture}
+%\end{minipage}
+%\begin{minipage}{0.35\textwidth}
+%\begin{tikzpicture}
+%\node[rectangle,inner sep=9.8pt,draw=gray!50!gray,text width= 0.95\textwidth] {\color{darkgray}\Huge \hfill \@author};
+%\end{tikzpicture}
+%\end{minipage}
+%\bigskip\bigskip
+%}
+%\makeatother
+
+% redo the math environements spacing
+\let\oldmath=\math
+\let\endoldmath=\endmath
+% commented out, as this makes math overlap with text
+%\renewenvironment{math}{\vspace{-4mm}\begin{oldmath}}{\end{oldmath}\vspace{0mm}}
+
+% Custom macros
+% see https://en.wikibooks.org/wiki/LaTeX/Macros
+
+% limes to infinity! (and beyond! \o/)
+%\newcommand{\liminfty}[2][n]{\lim_{#1 \to \infty}{#2}}
+\newcommand{\liminfty}[1][n]{\lim_{#1 \to \infty}}
+
+% infinite sum
+%\newcommand{\suminfty}[2][k = 1]{\sum_{#1}^{\infty}{#2}}
+\newcommand{\suminfty}[1][k = 1]{\sum_{#1}^{\infty}}
+
+% Integral from a to b
+\newcommand{\intab}[1] {\int_{a}^{b} #1 dx}
+
+% Integral from a to b of f(x)
+\newcommand{\intabf}{\int_{a}^{b} f(x) dx}
+
+
+
+\title{Analysis WS1718}
+\author{Anonyme Analytiker}
+\date{2017 / 2018}
+
+%costum layout
+\setlength{\parindent}{0cm}
+\usepackage{fancyhdr}
+\usepackage{xcolor}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{
+	\strut\rlap{\color{green!50!black}\rule[-\dp\strutbox]{\headwidth}{\headheight}}
+	\textcolor {white} {Zusammenfassung: Analysis}}
+\fancyfoot[L]{
+	\strut\rlap{\color{green!50!black}\rule[-\dp\strutbox]{\headwidth}{\headheight}}
+	\textcolor {white} {zuletzt aktualisiert: \today}}
+\fancyhead[R]{\textcolor{white}{Wintersemester 2017/18}}
+%\lfoot{}
+\fancyfoot[R]{\textcolor{white} {\thepage}}
+%\renewcommand{\footrulewidth}{1pt}
+
+\usepackage{titlesec}
+\titleformat{\section}
+{\color{cyan!80!blue}\normalfont\Large\bfseries}
+{\color{blue!60!black}\thesection}{1em}{}
+
+\titleformat{\subsubsection}
+{\color{blue!30!black!70}\normalfont\bfseries}
+{\color{black!60}\thesection}{1em}{}
+
+
+
+\usepackage{tikz}
+
+
+%%costum warnings
+%\newcommand{\todo}[1]{\typeout{#1}}
+
+\twocolumn
+\begin{document}
+
+
+\section*{Allgemein}
+
+%\begin{multicols*}{2}
+
+	\subsection*{Logarithmusregeln}
+
+	\begin{tabular}{ll}
+		$\log_a b = \frac{\log_c b}{\log_c a}$ & $\log_a(n\cdot m) = \log_an+\log_am$ \\[1ex]
+		$\log_a\frac{n}{m} = \log_an-\log_am$ & $\log_an^m = m \cdot \log_an$ \\[1ex]
+		$\log_{a^b}n = \frac{1}{b} \cdot \log_an$ & $\log_b (b^x) = x$ \\
+		$\log_b (a) = \frac{\ln a}{\ln b}$ & $\log_a b =x \iff a^x = b$
+	\end{tabular}
+
+	\subsection*{Eigenschaften der Exponentialfunktion}
+	
+	\begin{tabular}{l}
+		$\exp(z)$ ist stetig auf $\mathbb{C}$ \\
+		$\exp(z + w) = \exp(z) \exp(w) \; \forall z, w \in \mathbb{C}$ \\
+		$\exp(0) = 1$ \\
+		$\exp(z) \neq 0 \; \forall z \in \mathbb{C}$ \\
+		$\exp(-z) = \frac{1}{\exp(z)}  \; \forall z \in \mathbb{C}$ \\
+		$\exp(x) > 0 \; \forall x \in \mathbb{R}$ \\
+		$\exp: \mathbb{R} \to \mathbb{R}$ ist streng monoton wachsend \\
+		$\exp: \mathbb{R} \to \mathbb{R}$ ist strikt  konvex \\
+		$|\exp(z)| \leq \exp(|z|)$ \\
+		$e^x \geq 1 + x$ für $x \geq 0 \iff x \geq ln(1 + x)$ für $x \geq 0$
+	\end{tabular}
+
+	\subsection*{Eigenschaften des natürlichen Logarithmus}
+	
+	\begin{tabular}{l}
+		$\ln 1 = 0$ \\
+		$\ln e = 1$ \\
+		$\ln (x ⋅ y) = \ln x + \ln y$ $\forall x,y > 0$ \\
+		$\ln (\frac{x}{y}) = \ln x - \ln y$ $\forall x,y > 0$ \\
+		$\ln (x^k) = k ⋅ \ln x$ $\forall k \in \mathbb{Z}, x > 0$ \\
+		$\liminfty[x]{\ln x} = ∞ $ \\
+		$\lim_{x ↓ 0} \ln x = -∞$ \\
+		$\ln : \mathbb{R}_0^+ → \mathbb{R}$ ist streng monoton wachsend \\
+		$\ln : \mathbb{R}_0^+ → \mathbb{R}$ ist strikt konkav
+	\end{tabular}
+
+	\subsection*{Potenzregeln}
+
+	\begin{tabular}{lll}
+		$x^a \cdot x^b = x^{a+b}$ & $\frac{a^n}{a^m} = a^{n-m}$ & $(a^n)^m = a^{n\cdot m}$ \\[1ex]
+		$a^{-n} = \frac{1}{a^n}$ & $a^n\cdot b^n = (a\cdot b)^n$ & $\frac{a^n}{b^n} = \left(\frac{a}{b}\right)^n$ \\[1ex]
+		$a^\frac{n}{m} = \sqrt[m]{a^n}$ & $x^a = e^{a ⋅ \ln x}$ $x > 0$ & $0^0 = 1$ nach Vorl. \\
+	\end{tabular}
+
+
+	\subsection*{Praktische Formeln}
+	
+	\begin{tabular}{ll}
+		Binomische Formel & $(a+b)^n = \sum\limits_{k=0}^n \binom{n}{k} a^{n-k} b^k$\\
+		Erste Binomische Formel & $(a+b)^2 = a^2 +2ab +b^2$\\
+		Zweite Binomische Formel & $(a-b)^2 = a^2 -2ab +b^2$\\
+		Dritte Binomische Formel & $(a+b) \cdot (a-b) = a^2 -b^2$\\
+		Positivität der Quadrate & $0 \leq (a-b)^2$\\
+		pq-Formel & $x_{1/2} = - \frac{p}{2} \pm \sqrt{(\frac{p}{2})^2 - q}$\\
+		Mitternachtsformel & $x_{1/2} = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}$\\
+		Barneys Formel & $(x + c)^2 + d \stackrel{!}{=} 0 \iff x_{1,2} = -c \pm \sqrt{-d}$ \\
+		Bernoullische Ungleichung & $ (1 + x)^n \ge 1 + n x \; \forall n \in \mathbb{N}_o, \forall x > -1 $
+	\end{tabular}
+
+	\subsection*{Schranken}
+	\begin{tabular}{ll}
+		Supremum ($\sup M$) & kleinste obere Schranke von $M$ \\
+		Infimum ($\inf M$) & größte untere Schranke von $M$ \\
+		Maximum von $M$ & $\sup M$, falls $\sup M \in M$ \\
+		Minimum von $M$ & $\inf M$, falls $\inf M \in M$ \\
+	\end{tabular}
+	
+
+
+	\subsection*{Dreiecksungleichung}
+
+	$|x + y| \le |x| + |y| \; \forall x, y \in \mathbb{R}$ mit Gleichheit bei gleichem Vorzeichen \\
+	$|x + y| \ge ||x| - |y|| \; \forall x, y \in \mathbb{R}$ mit Gleichheit bei verschiedenen Vorzeichen für $x,y$
+
+
+	\subsection*{Vektoren}
+
+	Länge eines Vektors $\|x\| := \sqrt{\sum_{i=1}^n{x_i^2}}$ \\
+	Skalarprodukt $<\!x, y\!> := \sum_{i=1}^n{x_i y_i} \; \Rightarrow \|x\|^2 = \; <\!x, y\!>$ \\
+	Cauchy-Schwarz-Ungleichung $|<\!x, y\!>| \; \le \|x\| \|y\| \; \forall x, y \in \mathbb{R}^n$
+
+%\end{multicols*}
+\newpage
+
+\section*{Folgen}
+
+%\begin{multicols*}{2}
+	$(a_n)_{n \in \mathbb{N}_0}$
+
+	\subsection*{Konvergenz}
+	
+	$ \liminfty{a_n} = a \iff \forall \epsilon > 0: \exists n_0 \in \mathbb{N}: \forall n \ge n_0: |a_n -a| < \epsilon $ \\
+	Dann ist $a$ der Grenzwert: $\liminfty{a_n} = a$ \\ \\
+	Jede konvergente Folge reeller Zahlen ist beschränkt. \\
+	monoton + beschränkt $\implies$ konvergent
+	
+
+	\subsection*{Divergenz}
+
+	$ \forall a \in \mathbb{R}: \exists \epsilon > 0: \forall n_0 \in \mathbb{N}: \exists n \ge n_0: |a_n -a| \ge \epsilon $ \\
+	\textbf{Uneigentliche Konvergenz:}
+		$\liminfty{a_n} = \pm ∞$
+	
+	
+	\subsection*{Rechenregeln für Grenzwerte}
+
+	Nur anwendbar, wenn man von Konvergenz ausgeht - nicht bei Divergenz.
+	
+	$ \liminfty{a_n} = a $ und $ \liminfty{b_n} = b $ \\
+	$ \liminfty{a_n + b_n} = a + b $ \\
+	$ \liminfty{c a_n} = c a \; \forall c \in \mathbb{R} $ \\
+	$ \liminfty{a_n b_n} = a b $ \\
+	$ \liminfty{\frac{a_n}{b_n}} = \frac{a}{b} $, falls $b \neq 0$
+	
+	
+	\subsection*{Asymptotische Gleichheit}
+	
+	Folgen $(a_n)_{n \in \mathbb{N}}$ und $(b_n)_{n \in \mathbb{N}}$ von Zahlen $\neq 0$ \\
+	$\liminfty{\frac{a_n}{b_n}} = 1 \implies a_n \simeq b_n$ für $n \to \infty $
+
+
+	\subsection*{Beispiele Asymptotische Gleicheit} % TODO
+
+	\begin{tabular}{ll}
+		$ n \simeq n + 1 $ \\
+		$ \ln (n!) \simeq n \ln n$ \\
+	\end{tabular}
+	
+	\subsection*{Einschließungsregel}
+
+	Falls $ \liminfty{a_n} = a, \liminfty{b_n} = b $ und $a_n \le b_n \; \forall n \in \mathbb{N}$, dann gilt $a \le b$. \\ \\
+	Es gelte $a_n \le b_n \le c_n$ für alle bis auf endlich viele $n$.
+	Falls $\alpha \in \mathbb{R}$ existiert mit $ \liminfty{a_n} = \alpha = \liminfty{c_n} \implies \liminfty{b_n} = \alpha$.
+
+	\subsection*{Monotonie}
+	
+	\begin{tabular}{ll}
+		$\forall n$ gilt: & $a_n$ ist: \\
+		\hline
+		$a_n ≤ a_{n+1}$ & monoton wachsend \\
+		$a_n ≥ a_{n+1}$ & monoton fallend \\
+		$a_n < a_{n+1}$ & streng monoton wachsend \\
+		$a_n > a_{n+1}$ & streng monoton fallend \\
+		
+	\end{tabular}
+
+	Für jede monotone Folge gilt
+	$$
+		\liminfty{a_n} =
+			\begin{cases}
+				\sup_{n \in \mathbb{N}}{a_n} & \text{falls monoton wachsend} \\
+				\inf_{n \in \mathbb{N}}{a_n} & \text{falls monoton fallend}
+			\end{cases}
+	$$
+	
+	\subsection*{Teilfolge}
+	
+	$(n_k)_{k \in \mathbb{N}}$ sei streng monoton wachsend \\$\implies (a_{n_k})_{k \in \mathbb{N}}$ ist Teilfolge von $(a_n)_{n \in \mathbb{N}}$
+	
+	\pagebreak
+	
+	\renewcommand{\arraystretch}{1.7}
+	\subsection*{Wichtige Folgen und Grenzwerte}
+	\begin{tabular}{lcl}
+		$ \liminfty{\frac{n}{n + 1}} $ & $\to$ & $1$ \\ [1ex]
+		$ \liminfty{\sqrt{n + 1} - \sqrt{n}} $ & $\to$ & $0$ \\ [1ex]
+		$ \liminfty{\frac{2^n}{n!}} $ & $\to$ & $0$ \\ [1ex]
+		$ \liminfty{(1 + \frac{x}{n})^n} $ & $\to$ & $e^x$ \\ [1ex]
+		$ \liminfty{\sqrt[n]{n}} $ & $\to$ & $1$ \\ [1ex]
+		$ \liminfty[x]{\frac{e^x}{x^m}} $ & $\to$ & $∞$ $\forall m \in \mathbb{N}$ \\
+		$ \liminfty[x]{\frac{x}{(\ln x)^m}} $ & $\to$ & $∞$ $\forall m \in \mathbb{N}$ \\
+		$ \liminfty[x]{\frac{\ln x}{\ln (\ln x)}} $ & $\to$ & $∞$ \\
+		$ \lim_{x ↓ 0} x \ln x$ & $\to$ & $0$ \\
+		$ \liminfty{\frac{a^n}{b^n}} $ & $\to$ & $∞$ für $a > b > 1$\\
+		$ \lim_{x → 0} {\frac{\sin x}{x}} $ & $\to$ & $1$\\
+		$ \lim_{x → 0} {\frac{1 - \cos x}{\frac{x^2}{2}}} $ & $\to$ & $1$\\
+		$ \liminfty {} \frac{\ln \ln n}{\sqrt{\ln n}} $ & $\to$ & $0$\\
+		$ \lim_{x ↓ 0} \frac{\ln(1+x)}{x}$ & $\to$ & $1$ \\
+		$ \lim_{x → 0} \frac{e^x-1}{x}$ & $\to$ & $1$ \\
+		$ \lim_{x ↓ 0} x^a$ & $\to$ & $\begin{cases}
+				0 & a > 0 \\
+				1 & a = 0 \\
+				∞ & a < 0
+			\end{cases}$ \\
+		$ \liminfty[x] x^a$ & $\to$ & $\begin{cases}
+				∞ & a > 0 \\
+				1 & a = 0 \\
+				0 & a < 0
+			\end{cases}$
+		
+	
+		
+	\end{tabular}
+	\renewcommand{\arraystretch}{1}
+
+
+%\end{multicols*}
+\newpage
+
+
+\section*{Reihen}
+
+%\begin{multicols*}{2}
+
+	\subsection*{Wichtige Reihen und Grenzwerte}
+	
+	\begin{tabular}{lcp{2.5cm}r}
+		$ \suminfty{\frac{1}{k}} $ & $=$ & $\infty$ & (Harmonische R.)\\ [1ex] % harmonische Reihe
+		$ \suminfty{\frac{1}{k^2}} $ & & konvergent &\\ [1ex]
+		$ \suminfty{\frac{1}{\sqrt{k}}} $ & $=$ & $\infty$ &\\ [1ex]
+		$ \sum_{k = 0}^n{z^k} $ & $=$ & $
+			\begin{cases}
+				\frac{1 - z^{n + 1}}{1 - z} & z \neq 1 \\
+				n + 1 & z = 1
+			\end{cases}
+		$ & \\ [1ex] % geometrische Reihe
+		$ \suminfty[k = 0]{z^k} $ & $=$ & $
+			\begin{cases}
+				\frac{1}{1 - z} & |z| < 1 \\
+				∞ & z ≥ 1
+			\end{cases}
+		$ & (geometrische R.)\\ [1ex] % geometrische Reihe
+		$ \suminfty{\frac{1}{k (k + 1)}} $ & $=$ & $1$ & (Teleskopreihe)\\ [1ex] % Teleskopreihe
+		$ \sum_{k = 1}^{n}{\frac{1}{k (k + 1)}} $ & $=$ & $1 - \frac{1}{n + 1}$ &\\ [1ex] % Partialsummen der Teleskopreihe
+		$ \suminfty{\frac{1}{\sqrt{k (k + 1)}}} $ & $=$ & $\infty$ &\\ [1ex]
+		$ \suminfty[k = 0]{\frac{x^k}{k!}} $ & $=$ & $e^x$ & (Exponentialreihe)\\ [1ex] % Exponentialreihe
+		$ \suminfty[k = 0]{\frac{(-1)^k}{2k + 1}} $ & & konvergent & (Leibnizreihe)\\ [1ex] % Leibnizreihe \\
+		$ \suminfty[k = 0] (-1)^k \frac{x^{2k + 1}}{(2k+1)!}$ & $=$ & $\sin x$ & (Sinusreihe) \\
+		$ \suminfty[k = 0] (-1)^k \frac{x^{2k}}{(2k)!}$ & $=$ & $\cos x$ & (Kosinusreihe) \\
+		$ \suminfty[k = 0] {} \frac{(-1)^k}{k+1} x^{k+1}$ & $=$ & $\ln (1+x)$, $|x| < 1$ & \\
+		$ \suminfty[k = 0] \binom{n}{k} ⋅ x^k$ & $=$ & $(1 + x)^n$, $|x| < 1$ & (Binomialreihe)
+	\end{tabular}
+
+	\subsection*{Notwendige Konvergenzbedingung}
+
+	$\suminfty{a_k}$ konvergiert $\implies \liminfty[k]{a_k} = 0$ \\
+	Diese Bedingung ist notwendig, aber nicht hinreichend.
+
+	\subsection*{Minoranten- / Majorantenkriterium}
+
+	Für $k \in \mathbb{N}$ seien $a_k \in \mathbb{C}$ und $b_k \in \mathbb{R}$ mit $|a_k| \leq b_k$. \\
+	$\implies \suminfty{b_k}$ ist Majorante für $\suminfty{a_k}$ \\
+	$ \implies \suminfty{|a_k|}$ ist Minorante für $\suminfty{b_k}$. \\
+
+	\textbf{Majorantenkriterium}
+
+	$\suminfty{b_k}$ konvergiert $\implies \suminfty{a_k}$ konvergiert absolut \\ und
+	$|\suminfty{a_k}| \leq \suminfty{|a_k|} \leq \suminfty{b_k}$. \\
+
+	\textbf{Minorantenkriterium}
+	
+	$\suminfty{|a_k|}$ divergiert $\implies \suminfty{b_k}$ divergiert
+
+	\subsection*{Anwendung Asymptotische Gleicheit}
+
+	Seien $a_n, b_n > 0$ und $a_n \simeq b_n$ \\
+	$\implies \suminfty{a_n}$ und $\suminfty{b_n}$ sind entweder beide konvergent oder beide divergent.
+
+	%\vfill\null
+	%\columnbreak
+
+	\subsection*{Quotientenkriterium}
+
+	Sei $a_k \neq 0$ für alle bis auf endlich viele k. \\
+	Falls der Grenzwert $q = \liminfty[k]{|\frac{a_{k+1}}{a_k}|}$ existiert, dann gilt: \\
+	$q < 1 \implies \suminfty{a_k}$ konvergiert \\
+	$q = 1 \implies $ keine Aussage möglich \\
+	$q > 1 \implies \suminfty{a_k}$ divergiert
+
+	\subsection*{Leibnizkriterium}
+
+	$(a_n)_{n \in \mathbb{N}_0}$ monoton fallend mit $\liminfty{a_n} = 0$ \\
+	$\implies$ die alternierende Reihe $s = \suminfty[n = 0]{(-1)^k a_n}$ konvergiert
+	
+	\subsection*{Integralkriterium}
+	Sei $f : [1,∞) → [0,∞)$ monoton fallend, dann gilt: \\
+	$0 ≤ \liminfty {} \Big(\sum_{k = 1}^n f(k) - \int_1^{n + 1} f(x) dx\Big) ≤ f(1)$ \\
+	$\suminfty f(k)$ konvergiert $\iff \int_1^∞ f(x) dx$ konvergiert 
+	
+
+	\subsection*{Absolute Konvergenz}
+
+	Die Reihe $\suminfty{a_k}$ konvergiert absolut, wenn $\suminfty{|a_k|}$ konvergiert. \\
+	absolute Konvergenz $\implies$ Konvergenz (nach dem Majorantenkriterium)
+
+	\subsection*{Rechenregeln für Reihen}
+
+	Sind $\suminfty{a_k}$ und $\suminfty{b_k}$ konvergent $\implies \suminfty{a_k + b_k}$ ist konvergent \\
+	und	$\suminfty{a_k + b_k} = \suminfty{a_k} + \suminfty{b_k}$
+
+	Wenn $\suminfty{a_k}$ konvergent und $c \in \mathbb{R}$, dann ist $\suminfty{c a_k}$ auch konvergent.
+
+	Wenn $\suminfty{a_k}$ konvergent und $\suminfty{b_k}$ divergent, dann ist $\suminfty{a_k + b_k}$ divergent.
+
+	\subsection*{Umordnungssatz}
+
+	$\suminfty{a_k}$ konvergiert genau dann absolut, wenn für jede Bijektion \\$\sigma: \mathbb{N} \to \mathbb{N}$
+	die umgeordnete Reihe gegen ein und denselben Wert konvergiert: 
+	$\suminfty{a_{\sigma(k)}} = \suminfty{a_k}$
+
+	%\vfill\null
+	%\columnbreak
+
+	\subsection*{Cauchy-Produkt}
+
+	Sind $\suminfty[k = 0]{a_k}$ und $\suminfty[k = 0]{b_k}$ absolut konvergent, dann ist auch
+	$\suminfty[k = 0]{c_k}$ mit $c_k = \sum_{l = 0}^k{a_l b_{k -l}}$ absolut konvergent und es gilt:
+	$$
+	(\suminfty[k = 0]{a_k}) (\suminfty[k = 0]{b_k}) = \suminfty[k = 0]{\sum_{l = 0}^k{a_l b_{k - l}}} = \suminfty[k = 0]{c_k}
+	$$
+
+%\end{multicols*}
+
+	\pagebreak
+\section*{Potenzreihe}
+	Funktionsdarstellungen der Form \\
+	$f(x) = \suminfty[k = 0] a_kx^k, |x| < r$ \\
+	nennt man die Entwicklung der Funktion $f$ in eine Potenzreihe \\
+	$r$ nennt man den Konvergenzradius der Potenzreihe
+	
+	\subsection*{Bedeutung von Potenzreihen}
+	Ist zu gegebenen $f$ eine Potenzreihenentwicklung \\
+	$f(x) = \suminfty[k = 0] a_kx^k$ bekannt,\\
+	so kann man f durch Polynome approximieren: \\
+	$f(x) - \sum_{k = 0}^n a_kx^k = \suminfty[k = n + 1] a_kx^k \xrightarrow[n → ∞]{} 0$\\
+	
+	Ist zu gegebenen $a_k$, $k \in \mathbb{N}$, die erzeugende Funktion \\
+	$f(x) = \sum_{k = 0}^∞ a_kx^k$ \\
+	bekannt, kann man aus den Eigenschaften von f Rückschlüsse auf das Verhalten von $a_k, k \in \mathbb{N}$ ziehen.
+	
+	\subsection*{Konvergenzradius}
+	Zu jeder Potenzreihe $\suminfty[k = 0] a_kz^k$ gibt es einen Konvergenzradius $r ≥ 0$, sodass gilt: \\
+	\begin{tabular}{l @ {$\implies \suminfty[k = 0] a_k z^k$ ist } l}
+		$|z| < r$ & absolut konvergent \\
+		$|z| > r$ & divergent
+	\end{tabular}
+
+	$r = \frac 1 {\liminfty [k] \sqrt[k]{|a_k|}}$, falls $\big(\sqrt[k]{|a_k|}\big)_{k \in \mathbb{N}}$ konvergiert
+	
+	\subsection*{Analytische Funktion}
+	Eine Funktion $x \mapsto f(x)$ heißt in $x = 0$ analytisch, wenn $f$ sich mit positiven Konvergenzradius $r > 0$ in eine Potenzreihe entwickeln lässt \\
+	
+	Seien $f,g$ in $x = 0$ analytisch mit \\
+	$f(x) = \suminfty[k = 0] a_kx^k$ für $|x| < r_f$ \\
+	$g(x) = \suminfty[k = 0] b_kx^k$ für $|x| < r_g$ \\
+	
+	Dann gilt: \\
+	$f'$ ist in $x = 0$ analytisch und \\	
+	$f'(x) = \suminfty[k = 0] \frac d {dx} (a_kx^k) = \suminfty ka_kx^{k-1}$ für $|x| < r_f$ \\
+	
+	Die Koeffizienten sind eindeutig: $a_k = \frac{f^{(k)}(0)}{k!}$ \\
+	
+	Die Stammfunktionen $\int f(x) dx$ sind in $x = 0$ analytisch und \\	
+	$\int_0^x f(t) dt = \suminfty[k = 0] \int_0^x a_kt^k dt = \suminfty[k = 0] a_k \Bigg[\frac{t^{k + 1}}{k + 1}\Bigg]_0^x = \suminfty[k = 0] \frac{a_k}{k + 1} x^{k + 1}$ \\
+	
+	$f + g$ und $f ⋅ g$ sind in $x = 0$ analytisch mit \\
+	$(f + g) (x) = \suminfty[k = 0] (a_k + b_k) x^k$ \\
+	$(f ⋅ g) (x) = \suminfty[k = 0] \Big(\sum_{j = 0}^k a_jb_{k -j} \Big)x^k$
+		
+	
+	
+	
+	\subsection*{Taylorsche Formel}
+	Sei $\varepsilon > 0$, $f : (a-\varepsilon,a + \varepsilon) → \mathbb{R}$, dann gilt: \\
+	$f(a + h) = \sum_{k = 0}^n \frac{f^{(k)}(a)}{k!}h^k + o(h^n)$, für $h → 0$
+	
+	\subsection*{Taylorsche Formel mit Restglied}
+	Sei $I$ ein offenes Intervall,\\
+	$f : I → \mathbb{R}$ (n + 1)-mal stetig differenzierbar. \\
+	Dann gilt $\forall x,a \in I$ \\
+	$f(x) = \sum_{k = 0}^n \frac{f^{(k)}(a)}{k!} (x - a)^k + R_{n+1} (a,x)$ \\
+	mit den Restgliedformeln: \\
+	$R_{n+1}(a,x) = \frac 1 {n!} \int_a^x (x - t)^n f^{(n+1)} (t) dt$ (Cauchy) \\
+	$= \frac{f^{n+1}(\xi)}{(n + 1)!} (x - a)^{n + 1}$ für ein $\xi$ zwischen $a$ und $x$ (Lagrange)
+	
+	\subsection*{Taylorpolynom}
+	Sei $f$ n-mal stetig differenzierbar \\
+	$\implies$ n-tes Taylorpolynom von $f$ um $a$: \\
+	$T_{n,a} f(x) = \sum_{k = 0}^{n} \frac{f^{(k)}(a)}{k!} (x - a)^k$
+	
+	\subsection*{Taylorreihe}
+	Für eine beliebig oft differenzierbare Funktion $f$ mit $\liminfty R_n(a,x) = 0$ gilt: \\
+	$f(x) = T_{∞,a} f(x) = \suminfty[k = 0] \frac{f^{(k)}(a)}{k!} (x - a)^k$
+	
+	\newpage
+
+\section*{Stetigkeit}
+
+%\begin{multicols*}{2}
+
+	\subsection*{Definition}
+
+	Eine Funktion $f: D \subseteq \mathbb{R}^d \to \mathbb{R}^q$ mit Definitionsbereich $D$ heißt im Punkt $x \in D$ stetig,
+	falls für alle Folgen $(x_n)_{n \in \mathbb{N}} \in D$ mit $\liminfty{x_n} = x$ gilt: \\
+	$\liminfty{f(x_n)} = f(x)$ \\
+
+	$f$ heißt stetig, wenn $f$ in allen Punkten $x \in D$ stetig ist.
+
+	\subsection*{Komposition von Funktionen}
+
+	Seien $g: D_1 \to D_2$, $f: D_2 \to D_3$ Funktionen. Die Komposition von $f$ und $g$ ist definiert durch $f \circ g: D_1 \to D_3$, $x \mapsto f(g(x))$.
+
+	Die Komposition zweier stetiger Funktionen ist stetig.
+
+	\subsection*{Beispiele von stetigen elementaren Funktionen}
+
+	\begin{tabular}{lcl}
+		$f(x)$ & $=$ & $c$ ($c=konstant$) \\
+		$f(x)$ & $=$ & $x$ \\
+		$f(x)$ & $=$ & $|x|$ \\ [1ex]
+		$f(x)$ & $=$ & $\sqrt{x}$ \\ [1ex]
+		$f(x, y)$ & $=$ & $x + y$ \\ [1ex]
+		$f(x, y)$ & $=$ & $x y$ \\ [1ex]
+		$f(x, y)$ & $=$ & $\frac{x}{y}$ \\ [1ex]
+		$f(x)$ & $=$ & $a_n⋅x^n + a_{n-1}⋅x^{n-1} + \dots + a_1⋅x + a_0$ \\
+		$f(x)$ & $=$ & $e^x$ \\
+		$f(x)$ & $=$ & $sin x \lor \cos x \lor \tan x \lor \cot x$
+	\end{tabular}
+
+	Summen und Produkte stetiger Funktionen sind stetig.
+
+	\subsection*{Zwischenwertsatz}
+
+	Sei $f: [a, b] \to \mathbb{R}$ stetig und $y \in \mathbb{R}$ eine Zahl zwischen $f(a)$ und $f(b)$, d.h. $f(a) < y < f(b)$ oder $f(a) > y > f(b)$. \\
+	Dann gibt es ein $x \in (a, b)$, d.h. $a < x < b$ mit $f(x) = y$. \\
+
+	Eine auf $[a, b]$ stetige Funktion nimmt jeden Wert zwischen $f(a)$ und $f(b)$ an.
+	
+	%Vorlesung 9
+	\subsection*{Häufungspunkte}
+	$a^* \in \mathbb{R}^d$ ist Häufungspunkt von $(a_n)_{n \in \mathbb{N}}$, falls es eine Teilfolge $(a_{n_k})_{k \in \mathbb{N}}$ gibt mit $\liminfty [k] {a_{n_k} = a^*}$
+	
+	\subsection*{Bolzano-Weierstraß}
+	Jede beschränkte Folge in $\mathbb{R}$ besitzt mindestens eine konvergente Teilfolge und damit einen Häufungspunkt \\
+	
+	Eine Folge $(x_n)_{n \in \mathbb{N}}$ mit $x_n \in \mathbb{R}^d$ heißt beschränkt, falls \\
+	$\exists M > 0$ $\forall n \in \mathbb{N}$ $||x_n|| = \sqrt{\sum_{i=1}^d x_{n,i}^2} ≤ M$
+	
+	\pagebreak
+	\subsection*{Minima und Maxima von Funktionen}
+	Sei $f:D ⊆ \mathbb{R}^d → \mathbb{R}$ \\	
+	$x \in D$ ist Minimumstelle und $f(x)$ ist Minimum von $f$ auf $D \\ \iff f(x) ≤ f(y)$ $\forall y \in D$ \\	
+	$x \in D$ ist Maximumstelle und $f(x)$ ist Maximum von $f$ auf $D \\ \iff f(x) ≥ f(y)$ $\forall y \in D$ \\
+	
+	\subsection*{Satz von Minimum und Maximum}
+	Sei $∅ ≠ K ⊆ \mathbb{R}^d$ kompakt $\implies$ Jede stetige Funktion $f:K → \mathbb{R}$ nimmt auf K ihr Maximum und Minimum an: \\
+	$\exists \underline{x}, \overline{x} \in K$ sodass $f(\underline{x}) ≤ f(x) ≤ f(\overline{x}) ~\forall x \in K$ \\
+	$\underline{x} = \arg\min_{x \in K} f(x)$ \\
+	$\overline{x} = \arg\max_{x \in K} f(x)$ \\
+	$f(\underline{x}) = \min_{x \in K} f(x)$ \\
+	$f(\overline{x}) = \max_{x \in K} f(x)$	
+	
+	\subsection*{Abgeschlossenheit}
+	$A ⊆ \mathbb{R}^d$ ist abgeschlossen, falls der Grenzwert jeder konvergenten Folge aus $A$ wider in A liegt \\
+	
+	$\forall n$ $x_n \in A$ und $\liminfty {x_n = x} \implies x \in A$
+	
+	\subsection*{Kompaktheit}
+	$K ⊆ \mathbb{R}^d$ heißt kompakt, falls $K$ abgeschlossen und beschränkt \\
+	
+	Eine kompakte Menge $∅ ≠ K ⊆ \mathbb{R}$ besitzt ein Maximum und ein Minimum \\
+	
+	$K ⊆ \mathbb{R}^d$ ist kompakt $\iff$ Jede Teilfolge aus K besitzt eine konvergente Teilfolge mit Grenzwert in K \\
+	
+	Sei $f:K⊆\mathbb{R}^d → \mathbb{R}^q$ stetig. Ist $K$ kompakt \\$\implies f(k) = \{f(x) : x \in K\}$ = Bild von K unter f ist kompakt \\(d.h. stetige Bilder kompakter Mengen sind kompakt)
+
+\pagebreak	
+\section*{Wichtige Funktionen}
+	\subsection*{Bijektion}
+	$f:D⊆\mathbb{R}^d → B ⊆ \mathbb{R}^q$ ist bijektiv, falls $\forall y \in B$ genau ein $x \in D$ existiert mit $f(x) = y$ \\
+	
+	$f^{-1} : B → D, y \mapsto x$ heißt Umkehrfunktion von f \\
+	
+	Sei $ I ⊆ \mathbb{R}$ ein Intervall, $f : I → \mathbb{R}$ stetig und streng monoton wachsend $\implies f : I → f(I)$ ist bijektiv und $f^{-1} : f(I) → I$ ist stetig und streng monoton wachsend \\
+	Es gilt: $f^{-1} (f(x)) = x$ $\forall x \in I$ \\
+	$f (f^{-1} (y)) = y$ $\forall y \in f(I)$ 
+	
+	\subsection*{Asymptotisches Verhalten von exp und ln}
+	Die Exponentialfunktion wächst schneller als jedes Polynom \\
+	
+	x wächst schneller gegen ∞ als jede Potenz des Logarithmus
+	
+	\subsection*{Trigonometrische Funktionen}
+	\begin{tabular}{lll}
+		$ \cos^2 x + \sin^2 x = 1$ & $ \cos (-x) = \cos x $ & $\sin(-x) = -\sin x$\\
+		\multicolumn{2}{l}{$\cos(x+y) = \cos x ⋅ \cos y - \sin x ⋅ \sin y$} & $\tan x = \frac{\sin x}{\cos x}$ \\
+		\\
+		\multicolumn{2}{l}{$\sin(x+y) = \cos x ⋅ \sin y - \sin x ⋅ \cos y$} & $\cot x = \frac{\cos x}{\sin x}$  \\				
+	\end{tabular} \\
+	~ \\
+	
+	$ \sin : [-\frac{\pi}{2}, \frac{\pi}{2}] → \mathbb{R}$ ist stetig und streng monoton wachsend$ \iff \arcsin : [-1,1] → \mathbb{R}$ ist stetig und streng monoton wachsend \\
+	
+	$ \cos : [0, \pi] → \mathbb{R}$ ist stetig und streng monoton fallend$ \iff \\ \arccos : [-1,1] → \mathbb{R}$ ist stetig und streng monoton fallend \\
+	
+	$ \tan : [-\frac{\pi}{2}, \frac{\pi}{2}] → \mathbb{R}$ ist stetig und streng monoton wachsend$ \iff \arctan : \mathbb{R} → [-\frac{\pi}{2}, \frac{\pi}{2}]$ ist stetig und streng monoton fallend
+
+	\subsubsection*{Komplexe Zahlen}
+	\begin{tabular}{lll}
+		$e^{ix} = \cos x + i ⋅ \sin x $ & $i^2 = -1$ & $z = x + iy$\\
+		$|e^{ix}|^2 = 1$ & $|z| = \sqrt{x^2 + y^2} = \sqrt{z ⋅ \overline{z}}$ & $\overline{z} = x - iy$ \\
+		$\Re(z) = x$ & $\Im(z) = y$ & $\overline{\overline{z}} = z$ \\
+		$\cos x = \frac{1}{2} (e^{ix} + e^{-ix})$ & $\sin x = \frac{1}{2i} (e^{ix} - e^{-ix})$ & $\overline{z + z'} = \overline{z} + \overline{z'}$ \\
+		$\overline{z ⋅ z'} = \overline{z} ⋅ \overline{z'}$
+		
+	\end{tabular}
+
+	\begin{center}
+	\begin{tikzpicture}
+		\draw[smooth, samples = 600] (0,0) circle (2)(1,1);      
+		\draw[line width=0.25mm,red] (0,0) -- node[midway,above] {1} (1.39,1.39) -- node[midway,right,fill=white] {$i⋅\sin x$} (1.39,0)-- node[midway,below] {$\cos x$} cycle;
+		%\draw (0.7,1) node[left,red,fill=white] {$1$};
+		%\draw (0.65,-0.3) node[red,fill=white] {$\cos\left(\theta\right)$};
+		%\draw (1.4,0.5) node[red,right,fill=white] {$\sin\theta$};      
+		\draw[opacity=0.6,lightgray,very thin,step=1cm](-2.5,-2.5) grid (2.5,2.5);
+		\draw[->,opacity=0.6](-2.5,0) -- (2.5,0) node [right]{$\Re(z)$};
+		\foreach \x in {-1,1}
+		\draw[] (2*\x,2pt) -- (2*\x,-2pt) node[below,fill=white]{$\x$};
+		\draw[->,opacity=0.6](0,-2.5) -- (0,2.5) node[above]{$\Im(y)$};
+		\foreach \y in {-1}
+		\draw[] (2pt,2*\y) -- (-2pt,2*\y) node[left,fill=white] {$-i$};
+		\foreach \y in {1}
+		\draw[] (2pt,2*\y) -- (-2pt,2*\y) node[left,fill=white] {$i$};
+		\draw[red] (.75,0) arc (0:45:.75);
+		\node[red] at (.5,.2) {$x$};
+		\node[red] at (1.6,1.6) {$e^{ix}$};
+		\draw[line width=0.25mm,blue] (0,0) -- node[midway,above] {} (-1.39,1.39);
+		\node[blue] at (-1.6,1.6) {$-e^{-ix}$};
+		\draw[line width=0.25mm,blue] (0,0) -- node[midway,above] {} (1.39,-1.39);
+		\node[blue] at (1.6,-1.6) {$e^{-ix}$};
+	\end{tikzpicture}
+	\end{center}
+	
+
+%\end{multicols*}
+\newpage
+\section*{Differenzierbarkeit}
+	\subsection*{Landau-Symbole}
+	Seien $f,g : \mathbb{R}^d → \mathbb{C}$ Funktionen und $x_0 \in \mathbb{R}^d \implies$ \\ 
+	
+	$ f(x) = \mathcal{O}(g(x))$ für $x → x_0$, falls $ \exists \varepsilon > 0$ $ \exists C > 0$ sodass $(\forall x \in \mathbb{R}^d$ mit $ ||x-x_0|| < \varepsilon)$ : $|f(x))| ≤ C ⋅ |g(x)|$ \\
+	Man sagt: $f$ ist bis auf eine Konstante asymptotisch durch $g$ beschränkt. \\
+	und \\
+	
+	$f(x) = o(g(x))$ für $x → x_0$, falls $\lim_{x → x_0} \frac{f(x)}{g(x)} = 0$ \\
+	Man sagt: $f$ ist gegenüber $g$ asymptotisch vernachlässigbar. \\
+	
+	$f(x) = \mathcal{O}(g(x))$ für $x → -∞$, falls $\exists M > 0$ $\exists C > 0$, sodass $\forall x \in \mathbb{R}$ mit $x < -M$ gilt: $|f(x) ≤ C ⋅ |g(x)|$ \\
+	
+	$f(x) = \mathcal{O}(g(x))$ für $x → ∞$, falls $\exists M > 0$ $\exists C > 0$, sodass $\forall x \in \mathbb{R}$ mit $x > M$ gilt: $|f(x) ≤ C ⋅ |g(x)|$ \\
+	
+	\subsubsection*{Beispiele}
+	\begin{tabular}{lcl}
+		$f(x) = \mathcal{O}(1)$ & $\iff$ & $|f(x)| ≤ C$ \\
+		\multicolumn{3}{l}{$\implies f$ ist in einer Umgebung von $x_0$ beschränkt} \\
+		$f(x) = o(1)$ & $\iff$ & $\lim_{x → x_0} f(x) = \lim_{x → x_0} \frac{f(x)}{1} = 0$ \\
+		\multicolumn{3}{l}{$\implies f$ ist in einer Umgebung von $x_0$ beschränkt $\implies f(x) = \mathcal{O}(1)$} \\
+		$f(h) = o(h)$ & $\iff$ & $f(h) = o(1)$ \\		
+	\end{tabular}
+
+	\subsection*{Differenzierbarkeit}
+	Eine Funktion $f : I → \mathbb{R}$ auf einem offenen Intervall $I ⊆ \mathbb{R}$ heißt differenzierbar in $x_0 \in I$, falls für eine Zahl $f'(x_0) \in \mathbb{R}$ die Linearisierung $f(x) = f(x_0) + f'(x_0)(x-x_0) + o(|x-x_0|)$ für $x → x_0$ gültig ist. \\
+	
+	Die approximierende Gerade $x \mapsto f(x_0)+f'(x_0)(x-x_0)$ heißt Tangente von $f$ in $x_0$. \\
+	
+	Ihre Steigung $f'(x_0)$ heißt Ableitung von $f$ in $x_0$ \\
+	
+	$f$ ist in jedem Punkt differenzierbar $\iff$ $f$ ist differenzierbar \\
+	
+	Differenzierbarkeit $\implies$ Stetigkeit
+	
+	\subsection*{Differenzenquotient}
+	$f'(x_0) = \lim_{x → x_0} \frac{f(x) - f(x_0)}{x - x_0}$ \\
+	$f'(x_0) = \lim_{h → 0} \frac{f(x_0+h) - f(x_0)}{h}$ mit $h = x - x_0$ \\
+	$f'(x_0) = \frac{\text{d}f}{\text{d}x}(x_0)$
+	
+	\pagebreak
+	\subsection*{Wichtige Ableitungen}
+	\begin{tabular}{l|l}
+		$f(x)$ & $f'(x)$ \\
+		\hline
+		$x^n$ & $nx^{n-1}$ \\
+		$e^x$ & $e^x$ \\
+		$\ln(x)$ & $\frac{1}{x}$ \\
+		$a^x = e^{x\ln(a)}$ & $a^x ⋅ \ln(a)$ \\
+		$\sin x$ & $\cos x$ \\
+		$\cos x$ & $-\sin x$ \\
+		$\tan x$ & $\frac{1}{\cos^2 x} = 1 + \tan^2 x$ \\
+		$\arcsin x$ & $\frac{1}{\sqrt{1-x^2}}$ \\
+		$\arccos x$ & $-\frac{1}{\sqrt{1-x^2}}$ \\
+		$\arctan x$ & $\frac{1}{1+x^2}$ \\
+		
+	\end{tabular}
+
+	\subsection*{Ableitungsregeln}
+	Voraussetzung: $f,g$ sind differenzierbar in $x$ \\
+	\begin{tabular}{lclr}
+		$(cf)'(x)$ & $=$ & $cf'(x)$ \\
+		\\
+		$(f + g)'(x)$ & $=$ & $f'(x) + g'(x)$ & (Summenregel) \\
+		\\
+		$(fg)'(x)$ & $=$ & $f(x) ⋅ g'(x) + f'(x) ⋅ g(x)$ & (Produktregel) \\
+		\\
+		$(\frac{f}{g})'(x)$ & $=$ & $\frac{g(x) ⋅ f'(x) - f(x) ⋅ g'(x)}{g(x)^2}$ & (Quotientenregel) \\
+		\\
+		$(f \circ g)'(x)$ & $=$ & $f'(g(x)) ⋅ g'(x)$ & (Kettenregel) \\
+		\\
+		$(f^{-1})'(x)$ & $=$ & \multicolumn{2}{l}{$\frac{1}{f'(f^{-1}(x)}$~~~ falls f bijektiv} \\
+		
+	\end{tabular}
+	
+	\pagebreak
+	\section*{Anwendungen der Ableitung}
+	\subsection*{Extrema}
+	\subsubsection*{Globale Maxima/Minima}
+	$f$ hat bei $x_0 \in [a,b]$ ein globales Maximum, falls $f(x_0) ≥ f(x)$\\	
+	$f$ hat bei $x_0 \in [a,b]$ ein globales Minimum, falls $f(x_0) ≤ f(x)$\\
+	
+	\subsubsection*{Lokale Maxima/Minima}
+	$f$ hat bei $x_0 \in [a,b]$ ein lokales Maximum, falls $\exists \varepsilon > 0$ $\forall x \in (x_0 - \varepsilon, x_0 + \varepsilon) \cap [a,b]$ gilt: $f(x_0) ≥ f(x)$ \\
+	
+	$f$ hat bei $x_0 \in [a,b]$ ein lokales Minimum, falls $\exists \varepsilon > 0$ $\forall x \in (x_0 - \varepsilon, x_0 + \varepsilon) \cap [a,b]$ gilt: $f(x_0) ≤ f(x)$ \\
+	
+	Globale Extrema sind auch lokale Extrema \\
+	
+	Hat $f$ in $x_0$ ein lokales Extremum $\implies f'(x_0) = 0$
+	
+	\subsubsection*{Strikte Extrema}
+	Gilt $f(x_0) > f(x) \implies f$ hat in $x_0$ ein striktes Maximum \\
+	Gilt $f(x_0) < f(x) \implies f$ hat in $x_0$ ein striktes Minimum \\
+		
+	\subsection*{Mittelwertsatz der Differentialrechnung}
+	Sei $f : [a,b] → \mathbb{R}$ stetig auf $[a,b]$ und diff'bar auf $(a,b) \\
+	\implies$ Es gibt ein $\xi \in (a,b)$ mit $\frac{f(b) - f(a)}{b - a} = f'(\xi)$ \\
+	
+	Ist $f(a) = f(b) \implies$ Es gibt ein $\xi \in (a,b)$ mit $f'(\xi) = 0$
+	
+	\subsection*{Verallgemeinerter Mittelwertsatz}
+	Sei $f,g : [a,b] → \mathbb{R}$ stetig auf $[a,b]$ und diff'bar auf $(a,b)$ und \\
+	sei $g'(x) ≠ 0$ $\forall x \in (a,b) \\
+	\implies g(a) ≠ g(b)$ und \\
+	es gibt ein $\xi \in (a,b)$ mit $\frac{f(b) - f(a)}{g(b) - g(a)} = \frac{f'(\xi)}{g'(\xi)}$
+	
+	\subsection*{Monotonie}
+	\begin{tabular}{ll}
+		$\forall x,y \in I$ mit  $x≤y$ gilt: & $f : I ⊆ \mathbb{R} → \mathbb{R}$ ist: \\
+		\hline
+		$f(x) ≤ f(y)$ & monoton wachsend \\
+		$f(x) ≥ f(y)$ & monoton fallend \\	
+	\end{tabular} \\
+	~ \\
+	
+	\begin{tabular}{ll}
+		$\forall x,y \in I$ mit  $x<y$ gilt: & $f : I ⊆ \mathbb{R} → \mathbb{R}$ ist: \\
+		\hline
+		$f(x) < f(y)$ & streng monoton wachsend \\
+		$f(x) > f(y)$ & streng monoton fallend		
+	\end{tabular} \\
+
+	Konstante Funktionen sind monoton wachsend und monoton fallend
+	
+	\subsection*{Monotoniekriterium}
+	Sei $f : [a,b] → \mathbb{R}$ stetig auf $[a,b]$ und diff'bar auf $(a,b)$. Dann gilt
+	\begin{tabular}{lcl}
+		$\forall x \in (a,b)$ gilt: & & $f$ ist auf $[a,b]$: \\
+		\hline
+		$f'(x) > 0$ & $\implies$ & streng monoton wachsend \\
+		$f'(x) < 0$ & $\implies$ & streng monoton fallend \\
+		$f'(x) ≥ 0$ & $\iff$ & monoton wachsend\\
+		$f'(x) ≤ 0$ & $\iff$ & monoton fallend \\
+	\end{tabular} \\
+	
+	\subsection*{Hinreichendes Kriterium für Extrema}
+	Sei $f : (a,b) → \mathbb{R}$ diff'bar und $f'(x_0) = 0$ für ein $x_0 \in (a,b) \implies$ \\
+	
+	$f' ≥ 0 $ in $ (x_0 - \varepsilon,x_0)$ und $f' ≤ 0 $ in $ (x_0,x_0 + \varepsilon) \\ \implies$ lokales Maximum in $x_0$\\
+	
+	$f' ≤ 0 $ in $ (x_0 - \varepsilon,x_0)$ und $f' ≥ 0 $ in $ (x_0,x_0 + \varepsilon) \\ \implies$ lokales Minimum in $x_0$ \\
+	
+	$f' ≥ 0 $ in $ (a,x_0)$ und $f' ≤ 0 $ in $ (x_0,b) \\ \implies$ globales Maximum in $x_0$\\
+	
+	$f' ≤ 0 $ in $ (a,x_0)$ und $f' ≥ 0 $ in $ (x_0,b) \\ \implies$ globales Minimum in $x_0$\\
+	
+	Gilt $\forall x \in (a,b): f'(x) = 0 \iff f = const$ auf $(a,b)$
+	
+	\subsection*{Regel von de l'Hospital}
+	Sei $\lim_{x → x_0} f(x) = \lim_{x → x_0} g(x) = 0$ oder $∞$ \\
+	und $\lim_{x → x_0} \frac{f'(x)}{g'(x)}$ existiert \\
+	$\implies \lim_{x → x_0} \frac{f(x)}{g(x)} = \lim_{x → x_0} \frac{f'(x)}{g'(x)}$
+	
+	\subsection*{Höhere Ableitungen}
+	\begin{tabular}{l @{ $=$ } l}
+		$f'$ & $f^{(1)}$ \\
+		$f''$ & $f^{(2)}$ \\
+		\multicolumn{2}{c}{$\dots$} \\
+		$\dots$ & $f^{(n)}$ \\
+	\end{tabular}\\
+	~\\
+	
+	$f : [a,b] → \mathbb{R}$ ist n-mal diff'bar in $(a,b)$, falls $f^{(1)}, \dots, f^{(n)}$ auf $(a,b)$ existieren \\
+	
+	$f : [a,b] → \mathbb{R}$ ist n-mal stetig diff'bar in $(a,b)$, falls $f^{(1)}, \dots, f^{(n)}$ auf $(a,b)$ existieren und dort stetig sind. Man schreibt $f \in \mathcal{C}^n(a,b)$ \\
+	
+	$f : [a,b] → \mathbb{R}$ ist unendlich oft diff'bar in $(a,b)$, falls $f^{(n)}$ für alle $n \in \mathbb{N}$ existiert. Man schreibt $f \in \mathcal{C}^∞(a,b)$ \\
+	
+	Polynome sind in $\mathcal{C}^∞(\mathbb{R})$ \\
+	$\exp \in \mathcal{C}^∞(\mathbb{R})$ \\
+	
+	\subsection*{Krümmungsverhalten}
+	\begin{tabular}{l @{ auf (a,b) } cl}
+		\multicolumn{3}{l}{Für $f : (a,b) → \mathbb{R}$ gilt:} \\
+		$f'' ≥ 0$ & $\iff$ & $f$ ist konvex (linksgekrümmt) oder gerade \\
+		$f'' ≤ 0$ & $\iff$ & $f$ ist konkav (rechtsgekrümmt) od. gerade \\
+		$f'' > 0$ & $\implies$ & $f$ ist strikt konvex (linksgekrümmt) \\
+		$f'' < 0$ & $\implies$ & $f$ ist strikt konkav (rechtsgekrümmt) \\
+	\end{tabular}
+	
+	\subsection*{Lokale Extrema}
+	$f'(x_0) = 0$ und $f''(x_0) > 0 \implies$ striktes lokales Minimum in $x_0$ \\
+	$f'(x_0) = 0$ und $f''(x_0) < 0 \implies$ striktes lokales Maximum in $x_0$ \\
+	$f'(x_0) = 0$ und $f''(x_0) = 0 \implies$ keine Aussage möglich für $x_0$ \\
+	
+	\subsection*{Kurvendiskussion}
+	Sei $f: (a,b) → \mathbb{R}$ und $f$ zweimal stetig differenzierbar
+	
+	\subsubsection*{Randverhalten}
+	$\lim_{x → a} f(x)$ und $\lim_{x → b} f(x)$
+	
+	\subsubsection*{Extrema}
+	\begin{enumerate}
+		\item Bestimme alle $x_i$, für die gilt $f'(x_i) = 0$ $i \in \mathbb{N}$
+		\item Berechne für alle $x_i$ $f''(x_i)$: \\
+		$f''(x_i) > 0 \implies$ striktes lokales Minimum in $x_i$ \\
+		$f''(x_i) < 0 \implies$ striktes lokales Maximum in $x_i$ \\
+		$f''(x_i) = 0$ :
+		\begin{description}
+			\item $f(x_i - \varepsilon) ≥ f(x_i)$ und $f(x_i + \varepsilon) ≥ f(x_i) \\ \implies $ lokales Minimum in $x_i$
+			\item $f(x_i - \varepsilon) ≤ f(x_i)$ und $f(x_i + \varepsilon) ≤ f(x_i) \\ \implies $ lokales Maximum in $x_i$
+			\item $f(x_i - \varepsilon) ≤ f(x_i)$ und $f(x_i + \varepsilon) ≤ f(x_i) \\ \implies $ kein Extremum in $x_i$
+		\end{description}
+		\item Bestimme globales Maximum: \hfill \\
+		$\max (f(x_i), \lim_{x → a} f(x), \lim_{x → b} f(x) = \begin{cases}
+			c \implies c$ ist glob. Maximum$ \\
+			\pm ∞ \implies$ kein glob. Maximum$
+		\end{cases}$
+		\item Bestimme globales Minimum: \hfill \\
+		$\min (f(x_i), \lim_{x → a} f(x), \lim_{x → b} f(x) = \begin{cases}
+		c \implies c$ ist glob. Minimum$ \\
+		\pm ∞ \implies$ kein glob. Minimum$
+		\end{cases}$		
+	\end{enumerate}
+
+	\subsubsection*{Monotonie}
+	\begin{tabular}{lcl}
+		\multicolumn{3}{l}{Bestimme für alle Intervalle ($x_i,x_{i+1})$ mit $f'(x_i) = 0$ $\forall i$} \\
+		Für alle $x$ in $(x_i,x_{i+1})$ gilt: & & $f$ ist auf $(x_i,x_{i+1})$ \\
+		\hline
+		$f'(x) > 0$ & $\implies$ & streng monoton wachsend \\
+		$f'(x) < 0$ & $\implies$ & streng monoton fallend \\
+		$f'(x) ≥ 0$ & $\implies$ & monoton wachsend\\
+		$f'(x) ≤ 0$ & $\implies$ & monoton fallend \\
+	\end{tabular}
+
+	\subsubsection*{Krümmung}
+	\begin{tabular}{lcl}
+		\multicolumn{3}{l}{Bestimme für alle Intervalle ($x_i,x_{i+1})$ mit $f''(x_i) = 0$ $\forall i$} \\
+		\multicolumn{2}{l}{Für alle $x$ in $(x_i,x_{i+1})$ gilt:} & $f$ ist in $(x_i,x_{i+1})$ \\
+		\hline
+		$f'' > 0$ & $\implies$ & strikt konvex (linksgekrümmt) \\
+		$f'' < 0$ & $\implies$ & strikt konkav (rechtsgekrümmt) \\
+		$f'' = 0$ & $\implies$ & keine Aussage möglich \\	
+	\end{tabular}
+
+	\pagebreak
+	
+\section*{Integration}
+	
+	\subsection*{Riemann-Summe}
+	$S_z = \sum_{j=1}^n f(\xi_j)(x_j - x_{j-1})$ mit $\xi_j \in [x_{j-1},x_j], 1 ≤ j ≤ n$
+	
+	\subsection*{Riemann-Integral}
+	Eine Funktion $f : [a,b] → \mathbb{R}$ heißt (Riemann-)integrierbar, falls für alle Zerlegungsfolgen $(Z_n)_{n \in \mathbb{N}}$ mit Feinheit $|Z_n| \xrightarrow[n → ∞]{} 0$ die zugehörigen Riemann-Summen $S_{Z_n}$ für jede Wahl der Zwischenpunkte gegen denselben Grenzwert I(f) konvergiert:
+	\begin{equation*}
+		\liminfty {} \sum_{j=1}^n f(\xi_j)(x_j - x_{j-1}) = I(f)
+	\end{equation*}
+	
+	$I(f)$ heißt bestimmtes Integral von $f : [a,b] → \mathbb{R}$ \\
+	
+	$f$ heißt Integrand \\
+	
+	$I(f) = \int_{a}^{b} f(x) dx$ \\
+	
+	Jede stetige Funktion $f : [a,b] → \mathbb{R}$ ist integrierbar
+	
+	\renewcommand{\arraystretch}{1.5}
+	\subsection*{Integraleigenschaften}
+	\begin{tabular}{lcl}
+		Normierung: \\
+		$\int_{a}^{b} 1 dx$ & $=$ & $\intab {} = b - a$ \\
+		$\intab{f(x)}$ & $=$ & $F(b) - F(a)$ \\
+		Positivität: \\
+		$f ≥ 0$ auf $[a,b]$ & $\implies$ & $\intab {f(x)} ≥ 0$  \\
+		Monotonie: \\
+		$f ≥ g$ auf $[a,b]$ & $\implies$ & $\intab {f(x)} ≥ \intab {g(x)}$ \\
+		Linearität: \\
+		$\intab{\lambda f(x) + \mu g(x)}$ & $=$ & $\lambda \intab{f(x)} + \mu \intab{g(x)}$ \\
+		Zerlegbarkeit: \\
+		$a < c < b$ $\intab{f(x)}$ & $=$ & $\int_a^c f(x) dx + \int_c^b f(x) dx$ \\
+		Verschiebung um c: \\
+		$\intab{f(x - c)}$ & $=$ & $\int_{a-c}^{b-c} f(x) dx$ \\
+		Skalierung um c: \\
+		$\intab{f(cx)}$ & $=$ & $\frac{1}{c}\int_{ac}^{bc} f(x) dx$ \\
+		Sonstige: \\
+		$\intab{\frac{f'(x)}{f(x)}}$ & $=$ & $\ln \frac{f(b)}{f(a)}$ \\
+	\end{tabular}
+	\renewcommand{\arraystretch}{1}
+
+	\subsection*{Mittelwertsatz der Integralrechnung}
+	Sei $f : [a,b] → \mathbb{R}$ stetig und $p : [a,b] → \mathbb{R}$ integrierbar mit $p > 0$. Dann gibt es ein $\xi \in [a,b]$ mit 
+	$$
+		\intab{f(x)p(x)} = f(\xi) \intab{p(x)}
+	$$
+	
+	\subsection*{Hauptsatz der Differential- und Integralrechnung}
+	Sei $f : [a,b] → \mathbb{R}$ stetig. \\
+	$F : [a,b] → \mathbb{R}$, $F(x) = \int_a^x f(t) dt$ \\ ist in jedem $x \in (a,b)$ differenzierbar und es gilt: \\
+	$F'(x) = f(x)$
+	
+	\subsection*{Stammfunktion}
+	Sei $F : (a,b) → \mathbb{R}$ differenzierbar \\
+	$F'(x) = f(x)$ $\forall x \in (a,b) \\
+	\implies$ $F$ ist eine Stammfunktion von $f$ auf $(a,b)$ \\
+	
+	Zwei Stammfunktionen unterscheiden sich nur durch eine Konstante: $G(x) = F(x) + c$
+	
+	\subsection*{Unbestimmtes Integral}
+	$\int f(x) dx$ ist eine Stammfunktion von $f(x)$
+	
+	\subsection*{Bestimmtes Integral}
+	$\intab{f(x)} = [F(x)]_a^b = [F(x)]_{x=a}^{x=b} = F(x)|_a^b = F(b) - F(a)$
+	
+	\renewcommand{\arraystretch}{1.3}
+	\subsection*{Wichtige Stammfunktionen}
+	\begin{tabular}{l|l}
+		f(x) & F(x) \\
+		\hline
+		$x^a, a≠-1$ & $\frac{1}{a + 1} ⋅ x^{a+1}$ \\
+		$\frac{1}{x}$ & $\ln|x|$ \\
+		$e^x$ & $e^x$ \\
+		$\sin x$ & $-\cos x$ \\
+		$\cos x$ & $\sin x$ \\
+		$\tan x$ & $-\ln (\cos x)$ \\
+		$\frac{1}{\sqrt{1-x^2}}$ & $\arcsin x$ \\
+		$\frac{1}{1 + x^2}$ & $\arctan x$ \\
+		$\ln x$ & $x\ln x -x$ \\
+		$a^x, a > 0$ & $\frac 1 {\ln a} a^x$ \\
+		$\sinh x$ & $\cosh x$ \\
+		$\cosh x$ & $\sinh x$ \\
+	\end{tabular}
+	\renewcommand{\arraystretch}{1}		
+	
+	\subsection*{Substitutionsregel}
+	$\intab{f(g(x)) ⋅ g'(x)} = \int_{g(a)}^{g(b)} f(u) du$ \\
+	
+	Merkregel: \\
+	$u = g(x)$, $du = g'(x) dx$ \\
+	$a \Rightarrow g(a)$, $b \Rightarrow g(b)$ \\
+	
+	Beispiel: \\
+	$\int_0^1 \sin(2x) ⋅ 2 dx$, $g(x) = 2x$, $f(g(x)) = \sin(2x)$, $g'(x) = 2$ \\
+	$u:= 2x$, $du = 2 dx$, $g(0) = 0$, $g(1) = 2$ \\
+	$\int_0^1 \sin(2x) ⋅ 2 dx = \int_0^2 \sin(u) du = [-\cos(u)]_0^2 = [-\cos(2x)]_0^1$
+	
+	\subsection*{Partielle Integration}
+	$\intab{f(x)g'(x)} = [f(x) ⋅ g(x)]_a^b - \intab{f'(x) ⋅ g(x)}$	
+	
+	\subsection*{Partialbruchzerlegung}
+	Sei $f(x) = \frac{\alpha_nx^n + \dots + \alpha_1x + \alpha_0}{\beta_mx^m + \dots + \beta_1x + \beta_0}$ \\
+	
+	1. Finde alle Polstellen $x_{∞,i}$ von $f(x) \implies$ \\
+	$f(x) = \frac{a_1}{x - x_{∞,1}} + \dots + \frac{a_m}{x - x_{∞,m}}$ \\
+	$ = \frac{a_1 ⋅ (x - x_{∞,2}) ⋅ \dots ⋅ (x - x_{∞,m})}{\beta_mx^m + \dots + \beta_1x + \beta_0}$ \\
+	$ + \frac{a_2 ⋅ (x - x_{∞,1})(x - x_{∞,3}) ⋅ \dots ⋅ (x - x_{∞,m})}{\beta_mx^m + \dots + \beta_1x + \beta_0}$ \\
+	$ + \dots + \frac{a_m ⋅ (x - x_{∞,1}) ⋅ \dots ⋅ (x - x_{∞,m-1})}{\beta_mx^m + \dots + \beta_1x + \beta_0}$ \\
+	
+	2. Forme um zu: \\
+	$ f(x) = \frac{(c_{1,m}a_1 + \dots + c_{m,m}a_m)x^m + \dots + (c_{1,0}a_1 + \dots + c_{m,0}a_m)}{\beta_mx^m + \dots + \beta_1x + \beta_0}$ \\
+	
+	3. Löse folgendes lineare Gleichungssystem: \\
+	$\begin{array}{c}
+		(c_{1,m}a_1 + \dots + c_{m,m}a_m) = \alpha_m \\
+		\vdots \\
+		(c_{1,0}a_1 + \dots + c_{m,0}a_m) = \alpha_0
+	\end{array}$ \\
+	
+	4. Setze $a_1$ bis $a_m$ ein in: \\
+	$f(x) = \frac{a_1}{x - x_{∞,1}} + \dots + \frac{a_m}{x - x_{∞,m}}$ \\
+	
+	\subsubsection*{Integration mit Partialbruchzerlegung}
+	Sei $f(x) = \int \frac{\alpha_nx^n + \dots + \alpha_1x + \alpha_0}{\beta_mx^m + \dots + \beta_1x + \beta_0} dx$ \\
+	
+	Befolge Schritt 1 - 4 \\
+	
+	$\implies f(x) = \int \frac{a_1}{x - x_{∞,1}} + \dots + \frac{a_m}{x - x_{∞,m}} dx$ \\
+	$ = a_1\ln|x - x_{∞,1}| + \dots + a_m\ln|x - x_{∞,m}|$
+	
+	\subsubsection*{Beispiel}
+	Sei $f(x) = \int \frac{5x-1}{x^2-1} dx$ \\
+	
+	1. Finde alle Polstellen $x_{∞,i}$ von $f(x):$ $x_{∞,1} = -1$ und $x_{∞,2} = 1$ \\
+	$\implies f(x) = \int \frac {a_1} {x - 1} + \frac {a_2} {x + 1} dx = \int \frac{a_1(x + 1) + a_2(x - 1)}{x^2-1} dx$\\
+	
+	2. Forme um zu: \\
+	$ f(x) = \int \frac{(a_1 + a_2)x + (a_1 - a_2)}{x^2-1}$ \\
+	
+	3. Löse folgendes lineare Gleichungssystem: \\
+	$a_1 + a_2 = 5 \land a_1 - a_2 = -1 \implies a_1 = 2 \land a_2 = 3$ \\
+	
+	4. Setze $a_1$ bis $a_2$ ein: \\
+	$f(x) = \int \frac {2} {x - 1} + \frac {3} {x + 1} dx$ \\
+	
+	5. Löse Integral \\
+	$f(x) = 2\ln(x-1) + 3\ln(x+1)$
+	
+	
+	\subsection*{Uneigentliches Integral}
+	Ist $f : [a,b) → \mathbb{R}$ auf $[a,\beta]$ für alle $a < \beta < b$ integrierbar \\
+	$\implies \intab{f(x)} = \lim_{\beta → b} \int_a^{\beta} f(x) dx$ \\
+	heißt uneigentliches Integral, falls der Grenzwert existiert. \\
+	($b$ kann auch $∞$ sein) \\
+	
+	Gilt analog für die untere Grenze \\
+	
+	Ist $f : (a,b) → \mathbb{R}$ auf $[\alpha,\beta]$ für alle $a < \alpha < \beta < b$ integrierbar \\
+	$\implies \intab{f(x)} = \lim_{\alpha → a} \int_{\alpha}^c f(x) dx + \lim_{\beta → b} \int_c^{\beta} f(x) dx$ \\
+	heißt uneigentliches Integral, falls die Grenzwerte für ein $c \in (a,b)$ existieren. \\
+	($b$ kann auch $∞$ sein, $a$ kann auch $-∞$ sein)
+	
+	\subsection*{Einseitiger Grenzwert}
+	Rechtsseitiger Grenzwert: $\lim_{x ↓ x_0} f(x) = c$ \\
+	Linksseitiger Grenzwert: $\lim_{x ↑ x_0} f(x) = c$ \\
+	
+	\subsection*{Bekannte unbestimmte Integrale}
+	\begin{tabular}{l @{ $=$ } l}
+		$\int_0^1 \frac{1}{x} dx$ & $∞$ \\
+		$\int_{-1}^1 \frac{1}{x} dx$ & nicht wohldefiniert \\
+		$\int_1^∞ \frac{1}{x} dx$ & $∞$ \\
+		$\int_1^∞ \frac{1}{x^{\alpha}} dx$ & $\begin{cases}
+				\frac{1}{\alpha - 1} & \text{ falls } \alpha > 1 \\
+				∞ & \text{ falls } \alpha < 1
+			\end{cases}$ \\
+		$\int_0^1 \frac{1}{x^{\alpha}} dx$ & $\begin{cases}
+		∞ & \text{ falls } \alpha > 1 \\
+		\frac{1}{1 - \alpha} & \text{ falls } \alpha < 1
+		\end{cases}$ \\
+		$\int_0^∞ \frac{\sin x}{x} dx$ & $\frac{\pi}{2}$
+	\end{tabular}
+
+%	\subsection*{Partielle Ableitung}
+%	Sei $f(x,y)$ eine Funktion, die von einem Parameter $y$ abhängt. \\
+%	Für festes $x$ schreibe wir für die Ableitung der Funktion $y \mapsto f(x,y)$ \\
+%	$\frac{\partial f}{\partial y}(x,y) = \partial_y f(x,y) = \partial_2 f(x,y)$ \\
+%	Man spricht von der partiellen Ableitung nach $y$
+	
+	\subsection*{Parameterabhängige Integrale}
+	Sei $f : [a,b] \times [c,d] → \mathbb{R}$ stetig. Dann gilt: \\
+	
+	$F : [c,d] → \mathbb{R}$, $y \mapsto \intab{f(x,y)}$ ist stetig. \\
+	
+	$\int_c^d F(y) dy = \int_c^d \intab{f(x,y)} dy = \intab{\int_c^d f(x,y) dy}$ \\
+	
+	Wenn $f$ auf $[a,b] \times [c,d]$ eine stetige partielle Ableitung $\partial_y f$ besitzt,\\
+	dann ist $F$ stetig differenzierbar mit:
+	$F'(y) = \int_a^b \partial_y f(x,y) dx$ $\forall y \in [c,d]$ \\
+	$\implies \frac{d}{dy} \Big(\intab{f(x,y)}\Big) = \intab{\frac{\partial f}{\partial y} (x,y)}$
+	
+	\subsection*{Integralsinus}
+	$Si(b) = \int_0^b si(x) dx = \int_0^b \frac{\sin x}{x} dx$
+	
+	\subsection*{Darstellung eine Funktion als Reihe}
+	Seien $f_k : [a,b] → \mathbb{R}, k \in \mathbb{N}$ integrierbar \\
+	und es gebe $a_k \in \mathbb{R}$ mit $|f_k(x)| ≤ a_k$ $\forall x \in [a,b]$ $\forall k$ \\
+	und $\suminfty[k = 1]{} a_k < ∞ \implies$ \\
+	
+	$f(x) = \suminfty[k = 1]{} f_k(x)$ konvergiert und \\
+	
+	$\intab{f(x)} = \intab{\suminfty[k = 1]{} f_k(x)} = \suminfty[k = 1]{} \intab{f_k(x)}$
+	
+	\subsection*{Abschätzung von Summen und Reihen}
+	Seien $a,b \in \mathbb{Z}$ mit $a < b$ und sei $f : [a,b] → \mathbb{R}$ monoton. Dann folgt \\
+	
+	\begin{tabular}{l @ {$\implies$} l}
+		f ist monoton wachsend & $\sum_{k = a}^{b-1} f(k) ≤ \intab{f(x)} ≤ \sum_{k = a + 1}^{b} f(k)$ \\
+		f ist monoton fallend & $\sum_{k = a + 1}^{b} f(k) ≤ \intab{f(x)} ≤ \sum_{k = a}^{b - 1} f(k)$
+	\end{tabular}
+	
+	
+	\pagebreak
+\section*{Differentialrechnung mehrerer Veränderlicher}
+	\subsection*{Parametrisierte Kurve}
+	Eine parametrisierte Kurve im $\mathbb{R}^n$ ist eine Abbildung \\
+	$\gamma : [a,b] → \mathbb{R}^n$, $t \mapsto (\gamma_1(t), \dots, \gamma_n(t))$ \\
+	deren Komponenten $\gamma_i$ stetig sind \\
+	
+	$\gamma$ heißt stetig diff'bar, wenn alle $\gamma_i$ stetig diff'bar sind. \\
+	
+	$\gamma([a,b]) = \{\gamma(t) : t \in [a,b]\}$ heißt Spur von $\gamma$. \\
+	
+	Eine Kurve beschreibt die Bewegung eines Punktes im Raum \\
+	$t \hat{=}$ Zeit, $\gamma(t) \hat{=}$ Ort des Punktes zur Zeit t
+	
+	\subsection*{Tangentialvektor, Geschwindigkeit}
+	Die Kurve $\gamma : [a,b] → \mathbb{R}^n$ sei diff'bar. Dann heißt \\
+	$\gamma'(t) = (\gamma_1'(t), \dots, \gamma_n'(t))$ \\
+	Tangentialvektor oder Geschwindigkeitsvektor zur Stelle t \\
+	
+	$||\gamma'(t)|| = \sqrt{\sum_{k = 1}^n \gamma_k'(t)^2}$ \\
+	heißt Geschwindigkeit zur Zeit t. \\
+	
+	Falls $\gamma'(t) ≠ 0$ heißt \\
+	$T_\gamma(t) = \frac{\gamma'(t)} {||\gamma'(t)||}$ \\
+	Tangentialeinheitsvektor an der Stelle t \\
+	$||T_\gamma(t)|| = 1$
+	
+	\subsection*{Kurve}
+	Ist $f : [a,b] → \mathbb{R}$ stetig diff'bar, so ist \\
+	$\gamma : [a,b] → \mathbb{R}^2, t \mapsto (t,f(t))$ eine Kurve in $\mathbb{R}^2$ \\
+	mit $\frac{\gamma'(t)}{||\gamma'(t)||} = \frac{(1,f'(t))}{\sqrt{1 + f'(t)^2}}$
+	
+	\subsection*{partielle Ableitung}
+	Sei $f : \mathbb{R}^n → \mathbb{R}, (x1, \dots, x_n) \mapsto f(x_1, \dots, x_n) \in \mathbb{R}$ \\
+	Ist die Funktion \\
+	$\mathbb{R} \ni \xi \mapsto f(x_1, \dots, x_{k-1},\xi,x_{k+1}, \dots, x_n)$ \\
+	diffbar, so heißt ihre Ableitung partielle Ableitung von $f$ nach $x_k$ und wird mit \\
+	
+	$\frac{\partial f}{\partial x_k} = \partial_{x_k} f(x) = \partial_k f(x)$ \\
+	
+	bezeichnet, wobei $x = (x_1, \dots, x_n)$
+	
+	\subsection*{Gradient}
+	$\nabla f(x) = grad$ $f(x) = \begin{pmatrix}
+		\partial_1 f(x) \\
+		\vdots \\
+		\partial_n f(x)
+	\end{pmatrix}$ \\
+	heißt Gradient von f \\
+	$Df(x) = \nabla f(x)^T$
+	
+	\subsection*{Totale Differenzierbarkeit}
+	Ist $Df$ stetig, dann ist $f$ total differenzierbar: \\
+	$f(x + h) = f(x) + Df(x)h + o(||h||)$ für $\mathbb{R}^n \ni h → 0$ \\
+	$h = \begin{pmatrix}
+		h_1 \\
+		\vdots \\
+		h_n
+	\end{pmatrix}$,
+	$||h|| = \sqrt{\sum_{i = 1}^n h_i^2}$
+	
+	\subsection*{Tangentialebene}
+	Sei $f$ in $x_0$ total differenzierbar, dann gilt: \\
+	$f(x) = f(x_0) + Df(x_0)(x-x_0) + o(||x-x_0||)$ für $x → x_0$ \\
+	
+	$x \mapsto f(x_0) + Df(x_0)(x-x_0)$ \\
+	beschreibt die Tangentialebene an den Graphen von $f$ im Punkt $(x_0,f(x_0))$
+	
+	\subsection*{2. Differentielle Ableitung}
+	Ist $\partial_if$ nach $x_j$ differenzierbar, so schreiben wir für die Ableitung:\\
+	$\partial_j\partial_i f = \partial_{x_j}\partial_{x_i}f = \frac{\partial^2f}{\partial x_j \partial x_i}$
+	
+	
+	\subsection*{Hessematrix}
+	$Hf(x) = \nabla^2f(x) = \begin{pmatrix}
+		\partial_1\partial_1f(x) & \dots & \partial_1\partial_nf(x) \\
+		\vdots & \ddots & \vdots \\
+		\partial_n\partial_1f(x) & \dots & \partial_n\partial_nf(x)
+	\end{pmatrix}$ \\
+	heißt Hesse-Matrix von f im Punkt x \\
+	
+	Sind alle $\partial_i\partial_jf$ stetig, so gilt:
+	$\partial_i\partial_jf = \partial_j\partial_if$ $\forall i,j$
+	
+	\subsection*{Lokale Extrema}
+	Sei $U ⊆ \mathbb{R}^n$ offen und $f : U → \mathbb{R}$ zweimal stetig diff'bar: \\
+	Für alle $x \in U$ mit $\nabla f(x) = 0$ folgt: \\
+	\begin{tabular}{lclp{2cm}}
+		$f$ hat in $x$ ein & & $Hf(x)$ ist & Alle EW von $Hf(x)$ sind \\
+		\hline
+		lokales Minimum & $\implies$ & positiv semidefinit & $≥ 0$ \\
+		lokales Maximum & $\implies$ & negativ semidefinit & $≤ 0$ \\
+		striktes lokales Minimum & $\iff$ & positiv definit & $> 0$ \\
+		striktes lokales Maximum & $\iff$ & negativ definit & $< 0$ \\
+	\end{tabular}
+
+	\subsection*{Vorgehensweise zur Bestimmung der Extrema}
+	\begin{enumerate}
+		\item Bestimme alle kritischen Punkte von $f$, d.h aller $x \in U$ mit $\nabla f(x) = 0$
+		\item Für jeden kritischen Punkt x von f: Bestimme $Hf(x)$
+		\item Untersuche die Eigenwerte $\lambda_i(x)$ von $Hf(x)$ für jeden kritischen Punkt \\
+		\begin{tabular}{l @ {$\implies$} l}
+			Alle $\lambda_i(x) > 0$ & striktes lokales Minimum in x \\
+			Alle $\lambda_i(x) < 0$ & striktes lokales Maximum in x \\
+			Alle $\lambda_i(x) ≥ 0$ & lok. Minimum oder Sattelpunkt in x \\
+			Alle $\lambda_i(x) ≤ 0$ & lok. Maximum oder Sattelpunkt in x \\
+			$\exists \lambda_i(x) > 0 \land \exists \lambda_i < 0$ & Sattelpunkt in x			
+		\end{tabular}
+	\end{enumerate}
+	Sattelpunkte sind keine Extrema
+	
+	\pagebreak
+	\subsection*{Jacobimatrix}
+	Sei $U ⊆ \mathbb{R}^n$ offen. Eine Funktion $f:U → \mathbb{R}^m$ heißt in $x \in U$ total diff'bar, falls es eine lineare Abbildung \\
+	$A : \mathbb{R}^n → \mathbb{R}^m$, $h \mapsto A(h) = Ah$ \\
+	gibt, sodass gilt: \\
+	$f(x+h) = f(x) + Ah + o(||h||)$ \\
+	$A ⋅ h = \begin{pmatrix}
+		a_{11} & \dots & a_{1n} \\
+		\vdots & \ddots & \vdots \\
+		a_{m1} & \dots & a_{mn}		
+	\end{pmatrix}
+	\begin{pmatrix}
+		h_1 \\
+		\vdots \\
+		h_n
+	\end{pmatrix}$
+	, $f = \begin{pmatrix}
+		f_1 \\
+		\vdots \\
+		f_n
+	\end{pmatrix}$
+	, $a_{ij} = \frac{\partial f_i}{\partial x_j} (x)$ \\
+	
+	Ist $f$ in x differenzierbar $\iff$ Alle Komponenten sind in x differenzierbar \\
+	
+	A heißt Jacobimatrix von $f$ mit \\
+	$A = Df(x) = J_f(x) = \Big(\frac{\partial f_i}{\partial x_j} (x)\Big)_{1 ≤ i ≤ m, 1 ≤ j ≤ n} \in \mathbb{R}^{m \times n}$
+	
+	\pagebreak
+	
+\section*{Differentialgleichungen}
+	Differentialgleichungen beschreiben Prozesse bei denen die Zustandsänderungsrate eine gegebene einfach Funktion des Zustands ist
+	
+	\subsection*{Trennung der Variablen}
+	Sei $f,g : \mathbb{R} → \mathbb{R}$ stetig mit \\
+	$y'(x) = f(x) ⋅ g(y(x)) \implies$ \\
+	
+	$\int^{x = y(x)} \frac 1 {g(x)} dx = \int f(x) dx$ \\
+	
+	Sei $G(x) = \int \frac 1 {g(x)} dx$ und $F(x) = \int f(x) dx \implies$ \\
+	$G(y(x)) = F(x)$ und $y(x) = G^{-1}(F(x))$, falls $G$ eine Umkehrfunktion besitzt. \\
+	
+	Merke: $f(x)$ hängt nicht von $y$ ab. $g(y)$ hängt nur von $y$ ab.
+	
+	\subsection*{Trennung der Variablen - Anfangswertproblem}
+	Sei $f,g : \mathbb{R} → \mathbb{R}$ stetig mit \\
+	$y'(x) = f(x) ⋅ g(y(x))$ und $y(x_0) = y_0 \implies$ \\
+	
+	$\int_{y_0}^{y(x)} \frac 1 {g(s)} ds = \int_{x_0}^x f(t) dt$ \\
+	
+	Merke: $f(x)$ hängt nicht von $y$ ab. $g(y)$ hängt nur von $y$ ab.
+	
+	\subsection*{Homogene lineare Differentialgleichungen 1. Ordnung}
+	Sei $a,f : \mathbb{R} → \mathbb{R}$ stetige Funktionen mit \\
+	$y'(x) + a(x) ⋅ y(x) = 0$ und \\	
+	$A(x) = \int a(x) dx \implies$ \\
+	
+	$y(x) = c ⋅ e^{-A(x)}$
+	
+	\subsection*{Homogene lineare Dgl 1. Ordnung - Anfangswertproblem}
+	Sei $a,f : \mathbb{R} → \mathbb{R}$ stetige Funktionen mit \\
+	$y'(x) + a(x) ⋅ y(x) = 0$ und $y(x_0) = y_0$\\	
+	$A(x) = \int_{x_0}^x a(t) dt \implies$ \\
+	
+	$y(x) = y_0 ⋅ e^{-A(x)}$
+	
+	\subsection*{Inhomogene lineare Differentialgleichung 1. Ordnung}
+	Sei $a,f : \mathbb{R} → \mathbb{R}$ stetige Funktionen mit \\
+	$y'(x) + a(x)y(x) = f(x)$ und \\
+	$A(x) = \int a(x) dx \implies$ \\
+	
+	$y(x) = e^{-A(x)} ⋅ \Big( c + \int_{x_0}^x f(t)e^{A(t)} dt \Big) $ \\
+	
+	\subsection*{Inhomogene lineare Dgl 1. Ordn. - Anfangswertproblem}
+	Sei $a,f : \mathbb{R} → \mathbb{R}$ stetige Funktionen mit \\
+	$y'(x) + a(x)y(x) = f(x)$ und $y(x_0) = y_0$ \\
+	$A(x) = \int_{x_0}^x a(t) dt \implies$ \\
+	
+	$y(x) = e^{-A(x)} ⋅ \Big(y_0 + \int_{x_0}^x f(t)e^{A(t)} dt \Big) $
+	
+	\subsection*{Lineare Abhängigkeit}
+	Seien $y_1,y_2 : I → \mathbb{R}$ Funktionen, dann gilt: \\
+	$y_1$ und $y_2$ sind linear unabhängig, falls: \\
+	$\alpha_1y_1(x) + \alpha_2y_2(x) ≠ 0$ $\forall x \in I$, falls $\alpha_1 ≠ 0 \land \alpha_2 ≠ 0$ \\
+	$y_1$ und $y_2$ sind linear abhängig, wenn sie nicht linear unabhängig sind.
+	
+	\subsection*{Wronski-Determinante}
+	$W(x) = \det \begin{pmatrix}
+		y_1(x) & y_2(x) \\
+		y_1'(x) & y_2'(x) \\
+	\end{pmatrix}$ \\
+	heißt Wronski-Determinante von $y_1$ und $y_2$ \\
+	
+	$y_1$ und $y_2$ sind linear unabhängig $\iff W(x) ≠ 0$
+	
+	\subsection*{Homogene lineare Differentialgleichungen 2. Ordnung}
+	Seien $a,b,f : \mathbb{R} → \mathbb{R}$ stetige Funktionen mit \\
+	$y''(x) + ay'(x) + by(x) = 0$	\\
+	
+	$\lambda^2 + a \lambda + b = 0 \implies$ \\
+	$\lambda_1 = - \frac a 2 + \sqrt{D}$, $\lambda_2 = - \frac a 2 - \sqrt{D}$, $D = \frac {a^2} 4 - b$
+	
+	\subsubsection*{Fall 1: $D > 0$}
+	$y(x) = c_1e^{\lambda_1x} + c_2e^{\lambda_2x}$, $c_1,c_2$ beliebig
+	
+	\subsubsection*{Fall 2: $D = 0$}
+	$y(x) = c_1e^{-\frac a 2 x} + c_2xe^{-\frac a 2 x}$, $c_1,c_2$ beliebig
+	
+	\subsubsection*{Fall 3: $D < 0$}
+	$y(x) = e^{-\frac a 2 x}(c_1 \cos (\sqrt{-D} x) + c_2 \sin (\sqrt{-D} x)$, $c_1,c_2$ beliebig
+	
+	\pagebreak
+	
+	\subsection*{Inhomogene lineare Differentialgleichung 2. Ordnung}
+	Seien $a,b,f : \mathbb{R} → \mathbb{R}$ stetige Funktionen mit \\
+	$y''(x) + ay'(x) + by(x) = f(x)$	\\
+	
+	\begin{enumerate}
+		\item Bestimme die allgemeine Lösung $y_h(x)$ \\
+		von $y_h''(x) + ay_h'(x) + by_h(x) = 0$
+		\item Bestimme $y_p(x)$
+		\item $y(x) = y_h(x) + y_p(x)$
+	\end{enumerate}
+
+	\subsubsection*{Fall 1: $f(x) = a_nt^n + \dots + a_1t + a_0$}
+	\begin{enumerate}
+		\item Stelle $y_p(x)$ auf: $y_p(x) = b_nt^n + \dots + b_1t + b_0$
+		\item Berechne $y_p''(x)$ und $y_p'(x)$
+		\item Setze $y_p''(x)$, $y_p'(x)$ und $y_p(x)$ in Gleichung ein: \\
+		$y_p''(x) + ay_p'(x) + by(x) = f(x)$
+		\item Ermittle durch Gleichung die Werte von $b_0, b_1, \dots, b_n$
+		\item Setze $b_0, b_1, \dots, b_n$ in $y_p(x)$ ein
+	\end{enumerate}
+
+	\subsubsection*{Fall 2: $f(x) = e^{\alpha t}(a_1 \cos (\beta t) + a_2 \sin (\beta t))$}
+	\begin{enumerate}
+		\item Stelle $y_p(x)$ auf: $y_p(x) = e^{\alpha t} (b_1 \cos (\beta t) + b_2 \sin (\beta t))$
+		\item Berechne $y_p''(x)$ und $y_p'(x)$
+		\item Setze $y_p''(x)$, $y_p'(x)$ und $y_p(x)$ in Gleichung ein: \\
+		$y_p''(x) + ay_p'(x) + by(x) = f(x)$
+		\item Ermittle durch Gleichung die Werte von $b_1$ und $b_2$
+		\item Setze $b_1$ und $b_2$ in $y_p(x)$ ein
+	\end{enumerate}
+
+\pagebreak
+\section*{Anmerkungen}
+Dies ist eine Zusammenfassung der Vorlesung Analysis für Informatiker an der Technischen Universität München.
+Gehalten wurde diese Vorlesung durch Rolles S. im Wintersemester 2017/18.
+Alle Angaben sind ohne Gewähr.
+	
+
+\end{document}
